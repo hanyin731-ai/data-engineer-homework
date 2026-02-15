@@ -32,3 +32,29 @@ from `tensile-proxy-486113-u3.dbt_hxue.fct_monthly_zone_revenue`
 where service_type = 'Green' and EXTRACT(YEAR FROM revenue_month) = 2019 and EXTRACT(MONTH FROM revenue_month) = 10
 ;
 ```
+
+## Question 6. Build a Staging Model for FHV Data
+Create a staging model for the For-Hire Vehicle (FHV) trip data for 2019.
+
+ - Load the FHV trip data for 2019 into your data warehouse
+   - data loaded via web_to_gcs
+   - create external table 
+   ```sql
+    CREATE OR REPLACE EXTERNAL TABLE `tensile-proxy-486113-u3.zoomcamp.fhv_tripdata`
+    OPTIONS (
+    format = 'Parquet',
+    uris = ['gs://hanyin-kestra-zoomcamp/fhv/fhv_tripdata_2019-*.parquet']
+    );
+
+
+    SELECT count(*) FROM `tensile-proxy-486113-u3.zoomcamp.fhv_tripdata`;
+    ```
+ - Create a staging model stg_fhv_tripdata with these requirements:
+   - Filter out records where dispatching_base_num IS NULL
+   - Rename fields to match your project's naming conventions (e.g., PUlocationID → pickup_location_id)
+   - Finish the above 2 steps in https://github.com/hanyin731-ai/dbt-zoomcamp/blob/main/models/staging/stg_fhv_tripdata.sql
+
+What is the count of records in stg_fhv_tripdata?
+```SQL
+SELECT COUNT(*) FROM `tensile-proxy-486113-u3.dbt_hxue.stg_fhv_tripdata`
+```
